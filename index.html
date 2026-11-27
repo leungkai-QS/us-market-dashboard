@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>美股市況儀表板 · US Market Update</title>
+  <style>
+    :root {
+      --navy: #1B365D;
+      --navy-2: #2A4A73;
+      --rust: #D95D24;
+      --paper: #F4F7FA;
+      --ink: #1A2332;
+      --muted: #5B6775;
+      --line: #D5DDE6;
+      --card: #FFFFFF;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans CJK HK", "PingFang HK", "Microsoft JhengHei", Inter, system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 72px 24px 48px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+    .en-title {
+      margin: 0 0 28px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    p { line-height: 1.55; color: var(--muted); }
+    .choices {
+      display: grid;
+      gap: 12px;
+      margin: 32px 0 28px;
+    }
+    a.choice {
+      display: block;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px 20px;
+      text-decoration: none;
+      color: var(--navy);
+      box-shadow: 0 1px 2px rgba(27, 54, 93, 0.04);
+    }
+    a.choice:hover { border-color: var(--navy-2); }
+    a.choice strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+    a.choice span { color: var(--muted); font-size: 0.92rem; }
+    .note {
+      font-size: 0.88rem;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>美股市況儀表板</h1>
+    <p class="en-title">US Market Update Dashboard</p>
+    <p>請選擇語言。開啟後會顯示最近一次官方收市底稿，並可自動更新即時或延遲報價。</p>
+    <p>Please choose a language. The page opens with the latest official cash-close snapshot and can refresh delayed or live quotes.</p>
+    <div class="choices">
+      <a class="choice" href="zh.html"><strong>中文</strong><span>Traditional Chinese (Hong Kong)</span></a>
+      <a class="choice" href="en.html"><strong>English</strong><span>English version</span></a>
+    </div>
+    <p class="note">非投資建議。This is not investment advice. Anyone with this link can view the page.</p>
+  </main>
+</body>
+</html>
