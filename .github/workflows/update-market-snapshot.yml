@@ -1,0 +1,59 @@
+# Refresh the public Pages dashboards on US cash trading days.
+# GitHub cron is UTC. 08:00 and 16:15 America/New_York move by an hour
+# between EST and EDT, so each job is scheduled at both UTC offsets.
+# The script keeps the run that matches the New York clock and exits 0
+# for the other offset, for weekends, and for NYSE holidays.
+
+name: Update market snapshot
+
+on:
+  schedule:
+    - cron: "0 12 * * 1-5"   # 08:00 EDT
+    - cron: "0 13 * * 1-5"   # 08:00 EST
+    - cron: "15 20 * * 1-5"  # 16:15 EDT
+    - cron: "15 21 * * 1-5"  # 16:15 EST
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "post-close writes the official 16:00 ET cash close (13:00 ET on early-close days). morning refreshes cross-assets only and does not overwrite equity closes."
+        required: true
+        type: choice
+        default: post-close
+        options:
+          - post-close
+          - morning
+
+permissions:
+  contents: write
+
+concurrency:
+  group: us-market-snapshot
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test the updater
+        run: python3 -m unittest scripts/test_market_update.py
+
+      - name: Update zh.html and en.html
+        env:
+          UPDATE_JOB: ${{ github.event_name == 'workflow_dispatch' && inputs.job || 'auto' }}
+        run: python3 scripts/market_update.py --job "$UPDATE_JOB"
+
+      - name: Commit when figures changed
+        run: |
+          if git diff --quiet -- zh.html en.html data/official-snapshot.json; then
+            echo "No figure changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add zh.html en.html data/official-snapshot.json
+          git commit -m "Update the US market snapshot"
+          git push
