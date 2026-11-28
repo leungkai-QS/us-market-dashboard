@@ -1,0 +1,474 @@
+{
+  "version": 1,
+  "equitySession": {
+    "date": "2026-11-27",
+    "closeEt": "13:00",
+    "earlyClose": true
+  },
+  "previousEquitySession": {
+    "date": "2026-11-25",
+    "closeEt": "16:00",
+    "earlyClose": false
+  },
+  "instruments": {
+    "spx": {
+      "cnbc": ".SPX",
+      "yahoo": "^GSPC",
+      "dec": 2,
+      "close": "7297.49",
+      "prevClose": "7182.78",
+      "kind": "equity",
+      "ath": "7818.93",
+      "athDate": "2026-10-06"
+    },
+    "dji": {
+      "cnbc": ".DJI",
+      "yahoo": "^DJI",
+      "dec": 2,
+      "close": "50774.94",
+      "prevClose": "50182.95",
+      "kind": "equity",
+      "ath": "54349.12",
+      "athDate": "2026-08-05"
+    },
+    "ixic": {
+      "cnbc": ".IXIC",
+      "yahoo": "^IXIC",
+      "dec": 2,
+      "close": "24129.50",
+      "prevClose": "23585.80",
+      "kind": "equity",
+      "ath": "27599.79",
+      "athDate": "2026-10-06"
+    },
+    "ndx": {
+      "cnbc": ".NDX",
+      "yahoo": "^NDX",
+      "dec": 2,
+      "close": "26726.39",
+      "prevClose": "26046.90",
+      "kind": "equity",
+      "ath": "31224.47",
+      "athDate": "2026-10-06"
+    },
+    "sox": {
+      "cnbc": ".SOX",
+      "yahoo": "^SOX",
+      "dec": 2,
+      "close": "9186.71",
+      "prevClose": "8774.86",
+      "kind": "equity",
+      "ath": "14634.72",
+      "athDate": "2026-06-22"
+    },
+    "rut": {
+      "cnbc": ".RUT",
+      "yahoo": "^RUT",
+      "dec": 2,
+      "close": "2750.30",
+      "prevClose": "2704.06",
+      "kind": "equity",
+      "ath": "3068.42",
+      "athDate": "2026-08-14"
+    },
+    "vix": {
+      "cnbc": ".VIX",
+      "yahoo": "^VIX",
+      "dec": 2,
+      "close": "23.81",
+      "prevClose": "28.29",
+      "kind": "vix"
+    },
+    "spy": {
+      "cnbc": "SPY",
+      "yahoo": "SPY",
+      "dec": 2,
+      "close": "728.32",
+      "prevClose": "716.70",
+      "kind": "etf",
+      "ath": "779.118528",
+      "athDate": "2026-10-06"
+    },
+    "qqq": {
+      "cnbc": "QQQ",
+      "yahoo": "QQQ",
+      "dec": 2,
+      "close": "650.99",
+      "prevClose": "633.93",
+      "kind": "etf",
+      "ath": "759.703583",
+      "athDate": "2026-10-06"
+    },
+    "rsp": {
+      "cnbc": "RSP",
+      "yahoo": "RSP",
+      "dec": 2,
+      "close": "218.38",
+      "prevClose": "215.74",
+      "kind": "etf",
+      "ath": "223.338106",
+      "athDate": "2026-10-06"
+    },
+    "qqew": {
+      "cnbc": "QQEW",
+      "yahoo": "QQEW",
+      "dec": 2,
+      "close": "142.45",
+      "prevClose": "138.77",
+      "kind": "etf",
+      "ath": "167.037992",
+      "athDate": "2026-10-06"
+    },
+    "spym": {
+      "cnbc": "SPYM",
+      "yahoo": "SPYM",
+      "dec": 2,
+      "close": "85.75",
+      "prevClose": "84.37",
+      "kind": "etf",
+      "ath": "91.721040",
+      "athDate": "2026-10-06"
+    },
+    "xlb": {
+      "cnbc": "XLB",
+      "yahoo": "XLB",
+      "dec": 2,
+      "close": "52.15",
+      "prevClose": "51.21",
+      "kind": "sector",
+      "ath": "53.901809",
+      "athDate": "2026-10-06"
+    },
+    "xlre": {
+      "cnbc": "XLRE",
+      "yahoo": "XLRE",
+      "dec": 2,
+      "close": "44.14",
+      "prevClose": "43.86",
+      "kind": "sector",
+      "ath": "51.81",
+      "athDate": "2021-12-31"
+    },
+    "xlc": {
+      "cnbc": "XLC",
+      "yahoo": "XLC",
+      "dec": 2,
+      "close": "107.48",
+      "prevClose": "105.38",
+      "kind": "sector",
+      "ath": "120.075969",
+      "athDate": "2026-10-06"
+    },
+    "xli": {
+      "cnbc": "XLI",
+      "yahoo": "XLI",
+      "dec": 2,
+      "close": "165.56",
+      "prevClose": "162.95",
+      "kind": "sector",
+      "ath": "186.504450",
+      "athDate": "2026-10-06"
+    },
+    "xle": {
+      "cnbc": "XLE",
+      "yahoo": "XLE",
+      "dec": 2,
+      "close": "61.67",
+      "prevClose": "60.90",
+      "kind": "sector",
+      "ath": "70.023845",
+      "athDate": "2026-10-06"
+    },
+    "xlf": {
+      "cnbc": "XLF",
+      "yahoo": "XLF",
+      "dec": 2,
+      "close": "57.16",
+      "prevClose": "56.51",
+      "kind": "sector",
+      "ath": "59.202486",
+      "athDate": "2026-10-06"
+    },
+    "xlu": {
+      "cnbc": "XLU",
+      "yahoo": "XLU",
+      "dec": 2,
+      "close": "43.73",
+      "prevClose": "43.61",
+      "kind": "sector",
+      "ath": "47.729753",
+      "athDate": "2026-10-06"
+    },
+    "xlp": {
+      "cnbc": "XLP",
+      "yahoo": "XLP",
+      "dec": 2,
+      "close": "92.68",
+      "prevClose": "92.30",
+      "kind": "sector",
+      "ath": "92.68",
+      "athDate": "2026-11-27"
+    },
+    "xly": {
+      "cnbc": "XLY",
+      "yahoo": "XLY",
+      "dec": 2,
+      "close": "119.97",
+      "prevClose": "117.49",
+      "kind": "sector",
+      "ath": "124.514790",
+      "athDate": "2026-10-06"
+    },
+    "xlv": {
+      "cnbc": "XLV",
+      "yahoo": "XLV",
+      "dec": 2,
+      "close": "184.20",
+      "prevClose": "183.68",
+      "kind": "sector",
+      "ath": "189.662273",
+      "athDate": "2026-10-06"
+    },
+    "xlk": {
+      "cnbc": "XLK",
+      "yahoo": "XLK",
+      "dec": 2,
+      "close": "160.15",
+      "prevClose": "155.79",
+      "kind": "sector",
+      "ath": "202.00",
+      "athDate": "2026-10-06"
+    }
+  },
+  "crossAsset": {
+    "brent": {
+      "cnbc": "@LCO.1",
+      "yahoo": "BZ=F",
+      "dec": 2,
+      "value": "95.44",
+      "display": "95.44",
+      "prev": "96.57",
+      "displayKind": "settle",
+      "officialSettle": "95.44",
+      "settleDate": "2026-11-27",
+      "source": "cnbc-settle",
+      "cnbcLast": "95.44"
+    },
+    "wti": {
+      "cnbc": "@CL.1",
+      "yahoo": "CL=F",
+      "dec": 2,
+      "value": "83.08",
+      "display": "83.08",
+      "prev": "83.68",
+      "displayKind": "settle",
+      "officialSettle": "83.08",
+      "settleDate": "2026-11-27",
+      "source": "cnbc-settle",
+      "cnbcLast": "83.08",
+      "yahooLast": "83.08"
+    },
+    "gold": {
+      "cnbc": "@GC.1",
+      "yahoo": "GC=F",
+      "dec": 2,
+      "value": "3639.60",
+      "display": "3639.60",
+      "prev": "3535.80",
+      "displayKind": "settle",
+      "officialSettle": "3639.60",
+      "settleDate": "2026-11-27",
+      "source": "cnbc-settle",
+      "cnbcLast": "3639.60",
+      "yahooLast": "3639.60"
+    },
+    "silver": {
+      "cnbc": "@SI.1",
+      "yahoo": "SI=F",
+      "dec": 3,
+      "value": "43.167",
+      "display": "43.167",
+      "prev": "40.058",
+      "displayKind": "settle",
+      "officialSettle": "43.167",
+      "settleDate": "2026-11-27",
+      "source": "cnbc-settle",
+      "cnbcLast": "43.167",
+      "yahooLast": "43.167"
+    },
+    "dxy": {
+      "cnbc": ".DXY",
+      "yahoo": "DX-Y.NYB",
+      "dec": 2,
+      "value": "104.04",
+      "display": "104.04",
+      "prev": "103.665",
+      "displayKind": "fx-close",
+      "source": "cnbc",
+      "cnbcLast": "104.035",
+      "yahooLast": "104.01"
+    },
+    "jpy": {
+      "cnbc": "JPY=",
+      "yahoo": "JPY=X",
+      "dec": 3,
+      "value": "159.281",
+      "display": "159.281",
+      "prev": "159.262",
+      "displayKind": "fx-close",
+      "source": "yahoo",
+      "cnbcLast": "159.55",
+      "yahooLast": "159.281"
+    },
+    "cnh": {
+      "cnbc": "CNH=",
+      "yahoo": "CNH=X",
+      "dec": 4,
+      "value": "6.6542",
+      "display": "6.6542",
+      "prev": "6.6587",
+      "displayKind": "fx-close",
+      "source": "yahoo",
+      "cnbcLast": "6.6551",
+      "yahooLast": "6.6542"
+    }
+  },
+  "vixPath": [
+    {
+      "date": "2026-11-09",
+      "close": "19.92",
+      "marker": null,
+      "note": {
+        "zh": "周一 · 跌破 20 的平靜",
+        "en": "Monday · Calm below 20"
+      }
+    },
+    {
+      "date": "2026-11-10",
+      "close": "19.46",
+      "marker": null,
+      "note": {
+        "zh": "周二 · 10 月 CPI +0.4%",
+        "en": "Tuesday · October CPI +0.4%"
+      }
+    },
+    {
+      "date": "2026-11-11",
+      "close": "17.49",
+      "marker": "low",
+      "note": {
+        "zh": "周三 · 本輪低位",
+        "en": "Wednesday · Episode low"
+      }
+    },
+    {
+      "date": "2026-11-12",
+      "close": "18.70",
+      "marker": null,
+      "note": {
+        "zh": "周四",
+        "en": "Thursday"
+      }
+    },
+    {
+      "date": "2026-11-13",
+      "close": "19.30",
+      "marker": null,
+      "note": {
+        "zh": "周五 · 10 月 PPI 同比 +6.5%",
+        "en": "Friday · October PPI YoY +6.5%"
+      }
+    },
+    {
+      "date": "2026-11-16",
+      "close": "22.91",
+      "marker": null,
+      "note": {
+        "zh": "周一",
+        "en": "Monday"
+      }
+    },
+    {
+      "date": "2026-11-17",
+      "close": "25.46",
+      "marker": null,
+      "note": {
+        "zh": "周二 · 重返 25 以上",
+        "en": "Tuesday · Back above 25"
+      }
+    },
+    {
+      "date": "2026-11-18",
+      "close": "24.56",
+      "marker": null,
+      "note": {
+        "zh": "周三",
+        "en": "Wednesday"
+      }
+    },
+    {
+      "date": "2026-11-19",
+      "close": "28.44",
+      "marker": null,
+      "note": {
+        "zh": "周四",
+        "en": "Thursday"
+      }
+    },
+    {
+      "date": "2026-11-20",
+      "close": "35.89",
+      "marker": "peak",
+      "note": {
+        "zh": "周五 · 盤中高 40.03",
+        "en": "Friday · Intraday high 40.03"
+      }
+    },
+    {
+      "date": "2026-11-23",
+      "close": "26.62",
+      "marker": null,
+      "note": {
+        "zh": "周一 · 下跌 9.27 點",
+        "en": "Monday · Down 9.27 points"
+      }
+    },
+    {
+      "date": "2026-11-24",
+      "close": "26.36",
+      "marker": null,
+      "note": {
+        "zh": "周二",
+        "en": "Tuesday"
+      }
+    },
+    {
+      "date": "2026-11-25",
+      "close": "28.29",
+      "marker": null,
+      "note": {
+        "zh": "周三",
+        "en": "Wednesday"
+      }
+    },
+    {
+      "date": "2026-11-27",
+      "close": "23.81",
+      "marker": null,
+      "note": {
+        "zh": "周五 · 提早收市 13:00 ET",
+        "en": "Friday · early close 13:00 ET"
+      }
+    }
+  ],
+  "us10yMarket": {
+    "value": "4.936",
+    "asOf": "2026-11-27T14:30"
+  },
+  "notes": [
+    "Seeded from the Friday 27 November 2026 early close already published in zh.html, en.html, and the CNBC quote script.",
+    "ATH levels already printed in the pages are stored exactly. Where only a distance was printed, the ATH is the level that rounds back to that distance.",
+    "XLRE ATH is the page's stated 51.81 on 31 December 2021. XLK ATH is 202.00 on 6 October 2026. XLP's 27 November close is its closing high.",
+    "VIX day-change uses the previous equity session (25 November, 28.29), not the Thanksgiving print."
+  ]
+}
