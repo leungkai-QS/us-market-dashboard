@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import market_update as mu
 import nyse_calendar as cal
+import status_text as st
 
 ROOT = Path(__file__).resolve().parents[1]
 NY = cal.NY
@@ -244,6 +245,116 @@ class PatchTests(unittest.TestCase):
         official = re.search(r'spx:\s*\{[^}]*official:\s*([0-9.]+)', patched)
         self.assertEqual(official.group(1), "7297.49")
         self.check_scripts(patched, "zh-morning")
+
+    def check_scripts(self, html, label):
+        parts = html.split("<script>")[1:]
+        for index, part in enumerate(parts, start=1):
+            script = part.split("</script>", 1)[0]
+            with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as handle:
+                handle.write(script)
+                path = handle.name
+            result = subprocess.run(["node", "--check", path], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, f"{label} script {index}: {result.stderr}")
+
+
+class StatusTests(unittest.TestCase):
+    def setUp(self):
+        self.snap = mu.load_snapshot(ROOT / "data" / "official-snapshot.json")
+        self.pages = load_pages()
+
+    def test_vix_bands_and_recapture_and_new_high(self):
+        self.assertEqual(st.vix_band("18"), "below20")
+        self.assertEqual(st.vix_band("23.81"), "below_mid")
+        self.assertEqual(st.vix_band("30"), "mid")
+        self.assertEqual(st.vix_band("36"), "above_mid")
+        self.assertEqual(st.vix_band("41"), "panic")
+        below, _css = st.index_status("spx", self.snap, "en")
+        self.assertIn("still below the 5 Nov 2026 close", below)
+        self.assertIn("Outside a correction", below)
+        recaptured = deepcopy(self.snap)
+        recaptured["instruments"]["spx"]["close"] = "7400.00"
+        text, _css = st.index_status("spx", recaptured, "zh")
+        self.assertIn("已收復 11 月 5 日收市", text)
+        high = deepcopy(self.snap)
+        high["instruments"]["spx"]["close"] = "7900.00"
+        high["instruments"]["spx"]["ath"] = "7900.00"
+        text, _css = st.index_status("spx", high, "en")
+        self.assertIn("New closing high", text)
+        self.assertEqual(st.next_streak(4, Decimal("1")), 5)
+        self.assertEqual(st.next_streak(4, Decimal("-1")), -1)
+        self.assertIn("XLK", st.sector_rank_text(self.snap, "zh"))
+        self.assert_qqq_parenthesis_is_the_day_change()
+        self.assertIn("XLV", st.sector_rank_text(self.snap, "en"))
+        self.assertIn("XLU", st.sector_rank_text(self.snap, "en"))
+
+    def assert_qqq_parenthesis_is_the_day_change(self):
+        qqq = self.snap["instruments"]["qqq"]
+        day = st.fmt_pct(st.day_pct(qqq["close"], qqq["prevClose"]))
+        ath = st.fmt_pct(st.vs_ath(qqq["close"], qqq["ath"]))
+        self.assertNotEqual(day, ath)
+        for lang, opener, closer in (("zh", "（", "）"), ("en", "(", ")")):
+            caption = st.equity_caption("ndx", self.snap, lang)
+            match = re.search(
+                r"QQQ [\d,]+(?:\.\d+)?\s*" + re.escape(opener) + r"([^" + re.escape(closer) + r"]+)" + re.escape(closer),
+                caption,
+            )
+            self.assertIsNotNone(match, caption)
+            self.assertEqual(match.group(1), day)
+            self.assertNotEqual(match.group(1), ath)
+            self.assertNotIn(opener + ath + closer, caption)
+            if ath in caption:
+                self.assertIn("ATH", caption)
+
+    def test_pages_get_factual_pills_and_leave_the_call_alone(self):
+        patched = {}
+        for lang, html in self.pages.items():
+            patched[lang] = mu.patch_html(html, lang, self.snap, "post-close")
+            self.assertEqual(mu.patch_html(patched[lang], lang, self.snap, "post-close"), patched[lang])
+            self.check_scripts(patched[lang], lang)
+        self.assertIn("尚未見底", patched["zh"])
+        self.assertIn("Not yet a confirmed bottom", patched["en"])
+        self.assertIn("12–18%", patched["zh"])
+        self.assertIn("32–38%", patched["zh"])
+        self.assertIn("12–18%", patched["en"])
+        self.assertIn("偏高但非危機", patched["zh"])
+        self.assertIn("Elevated but not crisis-level", patched["en"])
+        self.assertIn("Out of the 25–35 mid-band, not yet below 20", patched["en"])
+        self.assertNotIn("Still in the 25–35 mid-range", re.search(r'data-status="overview-vix">(.*?)</span>', patched["en"]).group(1))
+        self.assertIn("up 4 days", patched["en"])
+        self.assertNotIn("up three days", patched["en"])
+        self.assertIn("still below the 5 Nov 2026 close", patched["en"])
+        self.assertIn("仍低於 11 月 5 日收市", patched["zh"])
+        self.assertIn("領漲 XLK", patched["zh"])
+        self.assertIn("Leader XLK", patched["en"])
+        self.assertIn('data-status="overview-spx"', patched["zh"])
+        self.assertIn('data-status="overview-spx"', patched["en"])
+        self.assertIn('id="sec-rank"', patched["zh"])
+        self.assertIn('id="sec-rank"', patched["en"])
+
+    def test_morning_does_not_rewrite_equity_status(self):
+        base = mu.patch_html(self.pages["en"], "en", self.snap, "post-close")
+        tampered = deepcopy(self.snap)
+        tampered["instruments"]["spx"]["close"] = "8000.00"
+        tampered["instruments"]["vix"]["close"] = "41"
+        tampered["streaks"]["dji"] = 9
+        morning = mu.patch_html(base, "en", tampered, "morning")
+        for slot in ("overview-spx", "overview-vix", "overview-dji", "sec-rank"):
+            self.assertEqual(self.slot(base, slot), self.slot(morning, slot))
+        self.assertIn("Not yet a confirmed bottom", morning)
+
+    def test_new_session_rolls_a_stored_streak_once(self):
+        session = cal.date(2026, 11, 30)
+        decision = mu.decide(ny(2026, 11, 30, 16, 20), "post-close", False)
+        updated, _notes = mu.apply_quotes(self.snap, decision, bumped_quotes(self.snap, session))
+        self.assertEqual(updated["streaks"]["dji"], 5)
+        self.assertEqual(updated["streaks"]["rut"], 5)
+        again, _notes = mu.apply_quotes(updated, decision, bumped_quotes(self.snap, session))
+        self.assertEqual(again["streaks"]["dji"], 5)
+
+    def slot(self, html, slot):
+        match = re.search(rf'data-status="{slot}"[^>]*>(.*?)</', html)
+        self.assertIsNotNone(match, slot)
+        return match.group(1)
 
     def check_scripts(self, html, label):
         parts = html.split("<script>")[1:]

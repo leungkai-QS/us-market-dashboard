@@ -1450,7 +1450,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
 </header>
 
 <main>
-<p class="note" id="auto-snapshot-note">自動更新快照：股指、VIX、11 隻產業 SPDR 與 SPY／QQQ／RSP／QQEW／SPYM 的官方收市為周五 11 月 27 日官方提早收市（13:00 ET）。早晨 08:00 ET 只更新跨資產，不覆蓋這些官方收市。GDP、PCE、CPI、PPI、NFP、官方 HY OAS、ChartRow 廣度、SSGA 持股權重、財政部現金收益率與文字評論維持上次人工版本。</p>
+<p class="note" id="auto-snapshot-note">自動更新快照：股指、VIX、11 隻產業 SPDR 與 SPY／QQQ／RSP／QQEW／SPYM 的官方收市為周五 11 月 27 日官方提早收市（13:00 ET）。狀態短句（調整區間、VIX 區間、已儲存的 11 月 5 日收市對照、已儲存連升連跌、產業領漲／落後）依同一收市規則更新。早晨 08:00 ET 只更新跨資產，不覆蓋股指收市與那些狀態短句。見底判斷、概率、評論、GDP、PCE、CPI、PPI、NFP、官方 HY OAS、ChartRow 廣度、SSGA 持股權重與財政部現金收益率維持人工版本。</p>
 
 <!-- ===================== 總覽 ===================== -->
 <section class="block" id="overview">
@@ -1467,7 +1467,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
       </div>
       <div class="v">7,297.49</div>
       <span class="chg up">▲ ＋1.60%</span>
-      <div class="s">−6.67% ATH　｜　仍在正式調整區外 · 11 月 27 日提早收市</div>
+      <div class="s">−6.67% ATH　｜　仍在調整區外，仍低於 11 月 5 日收市</div>
     </div>
     <div class="tile hero up-card" data-live="ixic">
       <div class="tile-top"><span class="ico cyan" aria-hidden="true"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 13 7 9 11 11 16 6"/><path d="M3 17h14"/></svg></span>
@@ -1475,7 +1475,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
       </div>
       <div class="v">24,129.50</div>
       <span class="chg up">▲ ＋2.31%</span>
-      <div class="s">−12.57% ATH　｜　YTD ＋3.82%</div>
+      <div class="s">−12.57% ATH　｜　仍在調整，仍低於 11 月 5 日收市</div>
     </div>
     <div class="tile hero" data-live="vix">
       <div class="tile-top"><span class="ico green" aria-hidden="true"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 12 6 12 8 6 11 16 13 9 16 12 20 12"/></svg></span>
@@ -1483,7 +1483,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
       </div>
       <div class="v">23.81</div>
       <span class="chg down">▼ −4.48 pts</span>
-      <div class="s">已跌出 25–35 中段、尚未回至 &lt;20　｜　仍未曾收市 ≥40</div>
+      <div class="s">已跌出 25–35 中段、尚未回到 &lt;20　｜　近 14 日未收市 ≥40</div>
     </div>
     <div class="tile hero" data-live="dxy">
       <div class="tile-top"><span class="ico cyan" aria-hidden="true"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v14M8.5 7.2c1.2-1 3.8-1 5 0s1.2 2.6 0 3.6c-1.2 1-3.8 1-5 0M8.5 10.8c1.2-1 3.8-1 5 0s1.2 2.6 0 3.6c-1.2 1-3.8 1-5 0"/></svg></span>
@@ -1598,13 +1598,13 @@ table.prints .met { color: inherit; font-weight: inherit; }
             <tr><th>標的</th><th>水平</th><th>距高／對照</th><th>狀態</th></tr>
           </thead>
           <tbody>
-            <tr><td>S&amp;P 500</td><td class="now">7,297.49</td><td>−6.67% ATH</td><td><span class="pill">仍在調整區外</span></td></tr>
-            <tr><td>道指</td><td class="now">50,774.94</td><td>−6.58% ATH</td><td><span class="pill">仍在調整區外，連升四日</span></td></tr>
-            <tr><td>納指</td><td class="now">24,129.50</td><td>−12.57% ATH</td><td><span class="pill">YTD ＋3.82%，仍在調整</span></td></tr>
-            <tr><td>NDX／QQQ</td><td class="now">26,726.39／650.99</td><td>−14.41%／−14.31%</td><td><span class="pill">仍在調整</span></td></tr>
-            <tr><td>SOX</td><td class="now">9,186.71</td><td>−37.23% ATH</td><td><span class="pill deep">主題深調仍深，周五大反彈</span></td></tr>
-            <tr><td>RSP 等權</td><td class="now">218.38</td><td>−2.22% ATH</td><td><span class="pill ok">仍淺於市值加權</span></td></tr>
-            <tr><td>VIX</td><td class="now">23.81</td><td>仍未收市 ≥40</td><td><span class="pill">已跌出 25–35 中段</span></td></tr>
+            <tr><td>S&amp;P 500</td><td class="now">7,297.49</td><td>−6.67% ATH</td><td><span class="pill" data-status="overview-spx">仍在調整區外，仍低於 11 月 5 日收市</span></td></tr>
+            <tr><td>道指</td><td class="now">50,774.94</td><td>−6.58% ATH</td><td><span class="pill" data-status="overview-dji">仍在調整區外，連升4日</span></td></tr>
+            <tr><td>納指</td><td class="now">24,129.50</td><td>−12.57% ATH</td><td><span class="pill" data-status="overview-ixic">仍在調整，仍低於 11 月 5 日收市</span></td></tr>
+            <tr><td>NDX／QQQ</td><td class="now">26,726.39／650.99</td><td>−14.41%／−14.31%</td><td><span class="pill" data-status="overview-ndx">仍在調整</span></td></tr>
+            <tr><td>SOX</td><td class="now">9,186.71</td><td>−37.23% ATH</td><td><span class="pill deep" data-status="overview-sox">收市回撤深於 20%</span></td></tr>
+            <tr><td>RSP 等權</td><td class="now">218.38</td><td>−2.22% ATH</td><td><span class="pill ok" data-status="overview-rsp">仍淺於市值加權</span></td></tr>
+            <tr><td>VIX</td><td class="now">23.81</td><td><span data-status="vix-path40">近 14 日未收市 ≥40</span></td><td><span class="pill" data-status="overview-vix">已跌出 25–35 中段、尚未回到 &lt;20</span></td></tr>
             <tr><td>HY OAS</td><td class="now">377 bps</td><td>25 及 26 日官方 377 bps；27 日尚未公布</td><td><span class="pill watch">偏高但非危機</span></td></tr>
 </tbody>
         </table>
@@ -1658,7 +1658,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
   <!-- Visual Drawdown from Closing ATH Chart -->
   <div class="panel-chart" style="margin-bottom: 14px;">
     <div class="pc-head">
-      <p class="pc-title">距收市歷史高位（ATH）· 截至星期五 11 月 27 日提早收市</p>
+      <p class="pc-title" id="ath-chart-title">距收市歷史高位（ATH）· 截至周五 11 月 27 日提早收市</p>
       <div class="pc-legend">
         <span><i class="swatch" style="background:#0D7A5F"></i>仍在調整區外（&gt;−10%）</span>
         <span><i class="swatch" style="background:#D95D24"></i>正式調整（−10% 至 −20%）</span>
@@ -1730,7 +1730,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
     <button type="button" role="tab" aria-selected="false" data-tabs="idx-track" data-period="1Y">1年</button>
     <button type="button" role="tab" aria-selected="false" data-tabs="idx-track" data-period="5Y">5年</button>
   </div>
-  <div class="chip-row"><span class="asof-chip" id="idx-asof">起始 11 月 25 日收市 → 11 月 27 日收市</span><span class="asof-chip">最後價日期一律 11 月 27 日</span></div>
+  <div class="chip-row"><span class="asof-chip" id="idx-asof">起始 11 月 25 日收市 → 11 月 27 日提早收市</span><span class="asof-chip" id="idx-date" data-status="idx-date">最後價日期一律 11 月 27 日</span></div>
   <div class="table-wrap">
     <table class="prints compact" id="idx-table">
       <thead>
@@ -1800,7 +1800,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
     <button type="button" role="tab" aria-selected="false" data-tabs="sec-track" data-period="1Y">1年</button>
     <button type="button" role="tab" aria-selected="false" data-tabs="sec-track" data-period="5Y">5年</button>
   </div>
-  <div class="chip-row"><span class="asof-chip" id="sec-asof">起始 11 月 25 日收市 → 11 月 27 日收市</span><span class="asof-chip">最後價日期一律 11 月 27 日</span></div>
+  <div class="chip-row"><span class="asof-chip" id="sec-asof">起始 11 月 25 日收市 → 11 月 27 日提早收市</span><span class="asof-chip" id="sec-date" data-status="sec-date">最後價日期一律 11 月 27 日</span><span class="asof-chip" id="sec-rank" data-status="sec-rank">領漲 XLK ＋2.80%　｜　升幅最小 XLV、XLU ＋0.28%</span></div>
 
   <!-- Interactive Sector Diverging Bar Chart -->
   <div class="panel-chart" style="margin-bottom: 14px;">
@@ -1958,37 +1958,37 @@ table.prints .met { color: inherit; font-weight: inherit; }
       <div class="k">S&amp;P 500</div>
       <div class="v">7,297.49</div>
       <div class="d">−6.67% ATH</div>
-      <div class="s">周五 ＋1.60% · ATH 7,818.93<br/>SPY −6.52% · 仍在調整區外，低於 11 月 5 日收市低</div>
+      <div class="s">周五 ＋1.60% · ATH 7,818.93<br/>SPY −6.52% · 仍在調整區外，仍低於 11 月 5 日收市</div>
     </div>
     <div class="tile">
       <div class="k">道指</div>
       <div class="v">50,774.94</div>
       <div class="d">−6.58% ATH</div>
-      <div class="s">周五 ＋1.18% · ATH 54,349.12<br/>連升四日，仍在調整區外</div>
+      <div class="s">周五 ＋1.18% · ATH 54,349.12<br/>仍在調整區外，連升4日</div>
     </div>
     <div class="tile">
       <div class="k">納指綜合</div>
       <div class="v">24,129.50</div>
       <div class="d">−12.57% ATH</div>
-      <div class="s">周五 ＋2.31% · ATH 27,599.79<br/>YTD ＋3.82% · 仍在調整，低於 11 月 5 日收市</div>
+      <div class="s">周五 ＋2.31% · ATH 27,599.79<br/>仍在調整，仍低於 11 月 5 日收市</div>
     </div>
     <div class="tile">
       <div class="k">NDX／QQQ</div>
       <div class="v">26,726.39</div>
       <div class="d">−14.41% / −14.31%</div>
-      <div class="s">周五 NDX ＋2.61% · ATH 31,224.47<br/>QQQ 650.99（＋2.69%）；仍在調整，已收復 11 月 5 日收市</div>
+      <div class="s">周五 ＋2.61% · ATH 31,224.47<br/>QQQ 650.99（＋2.69%） · 距 ATH −14.31% · 仍在調整</div>
     </div>
     <div class="tile">
       <div class="k">SOX 半導體</div>
       <div class="v">9,186.71</div>
       <div class="d">−37.23% ATH</div>
-      <div class="s">周五 ＋4.69% · ATH 14,634.72<br/>主題深調仍深，周五大反彈，已高於 11 月 5 日收市</div>
+      <div class="s">周五 ＋4.69% · ATH 14,634.72<br/>收市回撤深於 20%</div>
     </div>
     <div class="tile">
       <div class="k">VIX</div>
       <div class="v">23.81</div>
       <div class="d">對周三 −4.48 點</div>
-      <div class="s">盤中高 27.52、低 23.81<br/>已跌出 25–35 中段，仍高於 &lt;20；從未收市 ≥40</div>
+      <div class="s">對上一官方收市 −4.48 點<br/>已跌出 25–35 中段、尚未回到 &lt;20；近 14 日未收市 ≥40</div>
     </div>
     <div class="tile">
       <div class="k">HY OAS</div>
