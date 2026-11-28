@@ -283,8 +283,27 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(st.next_streak(4, Decimal("1")), 5)
         self.assertEqual(st.next_streak(4, Decimal("-1")), -1)
         self.assertIn("XLK", st.sector_rank_text(self.snap, "zh"))
+        self.assert_qqq_parenthesis_is_the_day_change()
         self.assertIn("XLV", st.sector_rank_text(self.snap, "en"))
         self.assertIn("XLU", st.sector_rank_text(self.snap, "en"))
+
+    def assert_qqq_parenthesis_is_the_day_change(self):
+        qqq = self.snap["instruments"]["qqq"]
+        day = st.fmt_pct(st.day_pct(qqq["close"], qqq["prevClose"]))
+        ath = st.fmt_pct(st.vs_ath(qqq["close"], qqq["ath"]))
+        self.assertNotEqual(day, ath)
+        for lang, opener, closer in (("zh", "（", "）"), ("en", "(", ")")):
+            caption = st.equity_caption("ndx", self.snap, lang)
+            match = re.search(
+                r"QQQ [\d,]+(?:\.\d+)?\s*" + re.escape(opener) + r"([^" + re.escape(closer) + r"]+)" + re.escape(closer),
+                caption,
+            )
+            self.assertIsNotNone(match, caption)
+            self.assertEqual(match.group(1), day)
+            self.assertNotEqual(match.group(1), ath)
+            self.assertNotIn(opener + ath + closer, caption)
+            if ath in caption:
+                self.assertIn("ATH", caption)
 
     def test_pages_get_factual_pills_and_leave_the_call_alone(self):
         patched = {}

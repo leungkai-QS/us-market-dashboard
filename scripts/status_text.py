@@ -226,6 +226,17 @@ def hero_vix_caption(snap: dict, lang: str) -> str:
     return regime + sep + path
 
 
+def qqq_clause(snap: dict, lang: str) -> str:
+    """Price, then the one-day change in parentheses. Vs-ATH stays outside that pair."""
+    qqq = snap["instruments"]["qqq"]
+    price = fmt_num(qqq["close"], 2)
+    day = fmt_pct(day_pct(qqq["close"], qqq["prevClose"]))
+    ath = fmt_pct(vs_ath(qqq["close"], qqq["ath"]))
+    if lang == "zh":
+        return f"QQQ {price}（{day}） · 距 ATH {ath}"
+    return f"QQQ {price} ({day}) · {ath} vs ATH"
+
+
 def equity_caption(key: str, snap: dict, lang: str) -> str:
     inst = snap["instruments"][key]
     dec = int(inst["dec"])
@@ -241,8 +252,7 @@ def equity_caption(key: str, snap: dict, lang: str) -> str:
             spy = snap["instruments"]["spy"]
             extra.append("SPY " + fmt_pct(vs_ath(spy["close"], spy["ath"])))
         if key == "ndx":
-            qqq = snap["instruments"]["qqq"]
-            extra.append("QQQ " + fmt_num(qqq["close"], 2) + "（" + fmt_pct(vs_ath(qqq["close"], qqq["ath"])) + "）")
+            extra.append(qqq_clause(snap, "zh"))
         tail = " · ".join(extra + [status]) if extra else status
         return line1 + "<br/>" + tail
     line1 = f"{name} {change} · ATH {ath_px}"
@@ -251,8 +261,7 @@ def equity_caption(key: str, snap: dict, lang: str) -> str:
         spy = snap["instruments"]["spy"]
         extra.append("SPY " + fmt_pct(vs_ath(spy["close"], spy["ath"])))
     if key == "ndx":
-        qqq = snap["instruments"]["qqq"]
-        extra.append("QQQ " + fmt_num(qqq["close"], 2) + " (" + fmt_pct(vs_ath(qqq["close"], qqq["ath"])) + ")")
+        extra.append(qqq_clause(snap, "en"))
     tail = " · ".join(extra + [status]) if extra else status
     return line1 + "<br/>" + tail
 
