@@ -1450,7 +1450,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
 </header>
 
 <main>
-<p class="note" id="auto-snapshot-note">Auto-updated snapshot: official closes for equities, VIX, the 11 sector SPDRs, and SPY / QQQ / RSP / QQEW / SPYM are the official Friday 27 November early close, 13:00 ET. The 08:00 ET run refreshes cross-assets only and does not overwrite those official closes. GDP, PCE, CPI, PPI, NFP, official HY OAS, ChartRow breadth, SSGA holding weights, official Treasury cash yields, and the written commentary stay on the last human edition.</p>
+<p class="note" id="auto-snapshot-note">Auto-updated snapshot: official closes for equities, VIX, the 11 sector SPDRs, and SPY / QQQ / RSP / QQEW / SPYM are the official Friday 27 November early close, 13:00 ET. Factual status lines (correction zone, VIX band, stored 5 Nov 2026 anchors, stored streaks, and the sector leader/laggard) follow those closes. The 08:00 ET run refreshes cross-assets only and does not rewrite equity or VIX status from overnight prints. The bottom call, probabilities, commentary, GDP, PCE, CPI, PPI, NFP, official HY OAS, ChartRow breadth, SSGA holding weights, and official Treasury cash yields stay on the last human edition.</p>
 
 <!-- ===================== Overview ===================== -->
 <section class="block" id="overview">
@@ -1467,7 +1467,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
       </div>
       <div class="v">7,297.49</div>
       <span class="chg up">▲ ＋1.60%</span>
-      <div class="s">−6.67% ATH ｜ Still outside a formal correction · 27 November early close</div>
+      <div class="s">−6.67% ATH ｜ Outside a correction, still below the 5 Nov 2026 close</div>
     </div>
     <div class="tile hero up-card" data-live="ixic">
       <div class="tile-top"><span class="ico cyan" aria-hidden="true"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 13 7 9 11 11 16 6"/><path d="M3 17h14"/></svg></span>
@@ -1475,7 +1475,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
       </div>
       <div class="v">24,129.50</div>
       <span class="chg up">▲ ＋2.31%</span>
-      <div class="s">−12.57% ATH　｜　YTD ＋3.82%</div>
+      <div class="s">−12.57% ATH ｜ In a correction, still below the 5 Nov 2026 close</div>
     </div>
     <div class="tile hero" data-live="vix">
       <div class="tile-top"><span class="ico green" aria-hidden="true"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 12 6 12 8 6 11 16 13 9 16 12 20 12"/></svg></span>
@@ -1483,7 +1483,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
       </div>
       <div class="v">23.81</div>
       <span class="chg down">▼ −4.48 pts</span>
-      <div class="s">Out of the 25–35 mid-range, not yet back below 20 ｜ Still has never closed ≥40</div>
+      <div class="s">Out of the 25–35 mid-band, not yet below 20 ｜ No ≥40 close in the last 14 sessions</div>
     </div>
     <div class="tile hero" data-live="dxy">
       <div class="tile-top"><span class="ico cyan" aria-hidden="true"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v14M8.5 7.2c1.2-1 3.8-1 5 0s1.2 2.6 0 3.6c-1.2 1-3.8 1-5 0M8.5 10.8c1.2-1 3.8-1 5 0s1.2 2.6 0 3.6c-1.2 1-3.8 1-5 0"/></svg></span>
@@ -1598,13 +1598,13 @@ table.prints .met { color: inherit; font-weight: inherit; }
             <tr><th>Asset</th><th>Level</th><th>vs high / comparison</th><th>Status</th></tr>
           </thead>
           <tbody>
-            <tr><td>S&amp;P 500</td><td class="now">7,297.49</td><td>−6.67% ATH</td><td><span class="pill">Still outside a correction</span></td></tr>
-            <tr><td>Dow</td><td class="now">50,774.94</td><td>−6.58% ATH</td><td><span class="pill">Still outside a correction, up three days</span></td></tr>
-            <tr><td>Nasdaq</td><td class="now">24,129.50</td><td>−12.57% ATH</td><td><span class="pill">YTD +1.48%, still in a correction</span></td></tr>
-            <tr><td>NDX／QQQ</td><td class="now">26,726.39／650.99</td><td>−14.41%／−14.31%</td><td><span class="pill">Still in a correction</span></td></tr>
-            <tr><td>SOX</td><td class="now">9,186.71</td><td>−37.23% ATH</td><td><span class="pill deep">Theme drawdown has widened again</span></td></tr>
-            <tr><td>RSP equal-weight</td><td class="now">218.38</td><td>−2.22% ATH</td><td><span class="pill ok">Still shallower than cap-weighted</span></td></tr>
-            <tr><td>VIX</td><td class="now">23.81</td><td>Has still never closed ≥40</td><td><span class="pill">Still in the 25–35 mid-range</span></td></tr>
+            <tr><td>S&amp;P 500</td><td class="now">7,297.49</td><td>−6.67% ATH</td><td><span class="pill" data-status="overview-spx">Outside a correction, still below the 5 Nov 2026 close</span></td></tr>
+            <tr><td>Dow</td><td class="now">50,774.94</td><td>−6.58% ATH</td><td><span class="pill" data-status="overview-dji">Outside a correction, up 4 days</span></td></tr>
+            <tr><td>Nasdaq</td><td class="now">24,129.50</td><td>−12.57% ATH</td><td><span class="pill" data-status="overview-ixic">In a correction, still below the 5 Nov 2026 close</span></td></tr>
+            <tr><td>NDX／QQQ</td><td class="now">26,726.39／650.99</td><td>−14.41%／−14.31%</td><td><span class="pill" data-status="overview-ndx">In a correction</span></td></tr>
+            <tr><td>SOX</td><td class="now">9,186.71</td><td>−37.23% ATH</td><td><span class="pill deep" data-status="overview-sox">Drawdown deeper than 20%</span></td></tr>
+            <tr><td>RSP equal-weight</td><td class="now">218.38</td><td>−2.22% ATH</td><td><span class="pill ok" data-status="overview-rsp">Shallower than cap-weighted</span></td></tr>
+            <tr><td>VIX</td><td class="now">23.81</td><td><span data-status="vix-path40">No ≥40 close in the last 14 sessions</span></td><td><span class="pill" data-status="overview-vix">Out of the 25–35 mid-band, not yet below 20</span></td></tr>
             <tr><td>HY OAS</td><td class="now">372 bps</td><td>9 bps wider vs the 23rd (official 24 Nov; 25 Nov not yet published)</td><td><span class="pill watch">Elevated but not crisis-level</span></td></tr>
 </tbody>
         </table>
@@ -1658,7 +1658,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
   <!-- Visual Drawdown from Closing ATH Chart -->
   <div class="panel-chart" style="margin-bottom: 14px;">
     <div class="pc-head">
-      <p class="pc-title">Distance from Closing All-Time High (ATH) · As of Friday 27 November early close</p>
+      <p class="pc-title" id="ath-chart-title">Distance from closing ATH · As of Friday 27 November early close</p>
       <div class="pc-legend">
         <span><i class="swatch" style="background:#0D7A5F"></i>Outside Correction (&gt;−10%)</span>
         <span><i class="swatch" style="background:#D95D24"></i>Formal Correction (−10% to −20%)</span>
@@ -1730,7 +1730,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
     <button type="button" role="tab" aria-selected="false" data-tabs="idx-track" data-period="1Y">1Y</button>
     <button type="button" role="tab" aria-selected="false" data-tabs="idx-track" data-period="5Y">5Y</button>
   </div>
-  <div class="chip-row"><span class="asof-chip" id="idx-asof">From 24 November close → 25 November close</span><span class="asof-chip">Last-price date is 25 November throughout</span></div>
+  <div class="chip-row"><span class="asof-chip" id="idx-asof">From 25 November close → 27 November early close</span><span class="asof-chip" id="idx-date" data-status="idx-date">Last-price date is 27 November</span></div>
   <div class="table-wrap">
     <table class="prints compact" id="idx-table">
       <thead>
@@ -1800,7 +1800,7 @@ table.prints .met { color: inherit; font-weight: inherit; }
     <button type="button" role="tab" aria-selected="false" data-tabs="sec-track" data-period="1Y">1Y</button>
     <button type="button" role="tab" aria-selected="false" data-tabs="sec-track" data-period="5Y">5Y</button>
   </div>
-  <div class="chip-row"><span class="asof-chip" id="sec-asof">From 24 November close → 25 November close</span><span class="asof-chip">Last-price date is 25 November throughout</span></div>
+  <div class="chip-row"><span class="asof-chip" id="sec-asof">From 25 November close → 27 November early close</span><span class="asof-chip" id="sec-date" data-status="sec-date">Last-price date is 27 November</span><span class="asof-chip" id="sec-rank" data-status="sec-rank">Leader XLK ＋2.80% ｜ Smallest gain XLV, XLU ＋0.28%</span></div>
 
   <!-- Interactive Sector Diverging Bar Chart -->
   <div class="panel-chart" style="margin-bottom: 14px;">
@@ -1958,37 +1958,37 @@ table.prints .met { color: inherit; font-weight: inherit; }
       <div class="k">S&amp;P 500</div>
       <div class="v">7,297.49</div>
       <div class="d">−6.67% ATH</div>
-      <div class="s">Friday +1.60% · ATH 7,818.93<br/>SPY −6.52% · Still outside a correction, below the 5 November closing low</div>
+      <div class="s">Friday ＋1.60% · ATH 7,818.93<br/>SPY −6.52% · Outside a correction, still below the 5 Nov 2026 close</div>
     </div>
     <div class="tile">
       <div class="k">Dow</div>
       <div class="v">50,774.94</div>
       <div class="d">−6.58% ATH</div>
-      <div class="s">Friday +1.18% · ATH 54,349.12<br/>Up for a fourth day, still outside a correction</div>
+      <div class="s">Friday ＋1.18% · ATH 54,349.12<br/>Outside a correction, up 4 days</div>
     </div>
     <div class="tile">
       <div class="k">Nasdaq Composite</div>
       <div class="v">24,129.50</div>
       <div class="d">−12.57% ATH</div>
-      <div class="s">Friday +2.31% · ATH 27,599.79<br/>YTD +3.82% · Still in a correction, below the 5 November close</div>
+      <div class="s">Friday ＋2.31% · ATH 27,599.79<br/>In a correction, still below the 5 Nov 2026 close</div>
     </div>
     <div class="tile">
       <div class="k">NDX／QQQ</div>
       <div class="v">26,726.39</div>
       <div class="d">−14.41% / −14.31%</div>
-      <div class="s">Friday NDX +2.61% · ATH 31,224.47<br/>QQQ 650.99 (+2.69%); still in a correction, back above the 5 November close</div>
+      <div class="s">Friday ＋2.61% · ATH 31,224.47<br/>QQQ 650.99 (−14.31%) · In a correction</div>
     </div>
     <div class="tile">
       <div class="k">SOX semiconductors</div>
       <div class="v">9,186.71</div>
       <div class="d">−37.23% ATH</div>
-      <div class="s">Friday +4.69% · ATH 14,634.72<br/>The theme drawdown is still deep; Friday’s bounce recaptured the 5 November close</div>
+      <div class="s">Friday ＋4.69% · ATH 14,634.72<br/>Drawdown deeper than 20%</div>
     </div>
     <div class="tile">
       <div class="k">VIX</div>
       <div class="v">23.81</div>
       <div class="d">−4.48 pts vs Wednesday</div>
-      <div class="s">Session high 27.52, low 23.81<br/>Out of the 25–35 mid-range, still above 20; has never closed ≥40</div>
+      <div class="s">−4.48 pts vs prior official close<br/>Out of the 25–35 mid-band, not yet below 20; No ≥40 close in the last 14 sessions</div>
     </div>
     <div class="tile">
       <div class="k">HY OAS</div>

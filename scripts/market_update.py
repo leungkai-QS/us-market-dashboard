@@ -43,6 +43,7 @@ from nyse_calendar import (
     is_trading_day,
     previous_trading_day,
 )
+import status_text as status
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOT_PATH = ROOT / "data" / "official-snapshot.json"
@@ -555,9 +556,22 @@ def apply_post_close(snap: dict, session: date, close_at: time, now: datetime, q
             inst["ath"] = js_num(inst["close"], dec)
             inst["athDate"] = session.isoformat()
             notes.append(f"{key}: new closing high {inst['close']}")
+    if new_session:
+        roll_stored_streaks(snap, notes)
     append_vix(snap, session)
     apply_cross_post_close(snap, session, quotes, notes)
     return None
+
+
+def roll_stored_streaks(snap: dict, notes: list[str]) -> None:
+    stored = snap.get("streaks") or {}
+    for key, count in list(stored.items()):
+        inst = snap["instruments"].get(key)
+        if not inst:
+            notes.append(f"{key}: stored streak has no instrument; left unchanged")
+            continue
+        stored[key] = status.next_streak(int(count), D(inst["close"]) - D(inst["prevClose"]))
+    snap["streaks"] = stored
 
 
 def append_vix(snap: dict, session: date) -> None:
@@ -767,7 +781,7 @@ def section_bounds(html: str, start_id: str, end_id: str) -> tuple[int, int]:
     return start, end
 
 
-def patch_html(html: str, lang: str, snap: dict, job: str) -> str:
+def patch_html(html: str, lang: str, snap: dict, job: str, notes: list[str] | None = None) -> str:
     if job == "post-close":
         html = patch_heroes(html, lang, snap)
         html = patch_sector_tiles(html, lang, snap)
@@ -781,6 +795,7 @@ def patch_html(html: str, lang: str, snap: dict, job: str) -> str:
         html = patch_txt(html, snap)
         html = patch_cross_tiles(html, lang, snap, job)
         html = patch_labels(html, lang, snap, job)
+        html = patch_factual_status(html, lang, snap, notes)
     else:
         html = patch_cross_tiles(html, lang, snap, job)
         html = patch_cross_asof(html, lang, snap, job)
@@ -1554,6 +1569,180 @@ def patch_cross_tiles(html: str, lang: str, snap: dict, job: str) -> str:
     return replace_spans(html, spans)
 
 
+def patch_factual_status(html: str, lang: str, snap: dict, notes: list[str] | None = None) -> str:
+    if notes is not None and lang == "en":
+        for line in status.skipped_status_notes(snap):
+            if line not in notes:
+                notes.append(line)
+    html = patch_overview_status(html, lang, snap)
+    html = patch_hero_status(html, lang, snap)
+    html = patch_equity_captions(html, lang, snap)
+    html = patch_rank_and_dates(html, lang, snap)
+    return html
+
+
+def patch_overview_status(html: str, lang: str, snap: dict) -> str:
+    start, end = section_bounds(html, "overview", "indexes")
+    section = html[start:end]
+    slots = {
+        "spx": ("overview-spx",) + status.index_status("spx", snap, lang),
+        "dji": ("overview-dji",) + status.index_status("dji", snap, lang),
+        "ixic": ("overview-ixic",) + status.index_status("ixic", snap, lang),
+        "ndx": ("overview-ndx",) + status.index_status("ndx", snap, lang),
+        "sox": ("overview-sox",) + status.index_status("sox", snap, lang),
+    }
+    rsp_text, rsp_css = status.rsp_status(snap, lang)
+    slots["rsp"] = ("overview-rsp", rsp_text, rsp_css)
+    vix_text, vix_css = status.vix_regime_text(snap["instruments"]["vix"]["close"], lang)
+    slots["vix"] = ("overview-vix", vix_text, vix_css)
+    for key, (slot, text, css) in slots.items():
+        label = OVERVIEW_LABELS[lang]["ndxqqq" if key == "ndx" else key]
+        section = replace_overview_pill(section, label, slot, text, css)
+    section = replace_vix_path_cell(section, OVERVIEW_LABELS[lang]["vix"], status.vix_path_text(snap.get("vixPath") or [], lang))
+    return html[:start] + section + html[end:]
+
+
+def replace_overview_pill(section: str, label: str, slot: str, text: str, css: str) -> str:
+    pattern = (
+        rf'(<tr><td>{re.escape(label)}</td><td class="now">.*?</td><td>.*?</td><td>)'
+        rf'<span class="pill[^"]*"(?: data-status="[^"]*")?>(.*?)</span>'
+        rf'(</td></tr>)'
+    )
+    replacement = (
+        rf'\1<span class="pill{css}" data-status="{slot}">{text}</span>\3'
+    )
+    updated, count = re.subn(pattern, replacement, section, count=1, flags=re.S)
+    if count != 1:
+        raise UpdateError(f"overview status pill missing: {label}")
+    return updated
+
+
+def replace_vix_path_cell(section: str, label: str, text: str) -> str:
+    if 'data-status="vix-path40"' in section:
+        return re.sub(
+            r'(<span data-status="vix-path40">)(.*?)(</span>)',
+            lambda m: m.group(1) + text + m.group(3),
+            section,
+            count=1,
+            flags=re.S,
+        )
+    pattern = rf'(<tr><td>{re.escape(label)}</td><td class="now">.*?</td><td>)(.*?)(</td>)'
+    updated, count = re.subn(
+        pattern,
+        lambda m: m.group(1) + f'<span data-status="vix-path40">{text}</span>' + m.group(3),
+        section,
+        count=1,
+        flags=re.S,
+    )
+    if count != 1:
+        raise UpdateError("VIX path status cell missing")
+    return updated
+
+
+def patch_hero_status(html: str, lang: str, snap: dict) -> str:
+    captions = {
+        "spx": status.hero_equity_caption("spx", snap, lang),
+        "ixic": status.hero_equity_caption("ixic", snap, lang),
+        "vix": status.hero_vix_caption(snap, lang),
+    }
+    spans = []
+    for key, caption in captions.items():
+        for start, end in live_blocks(html, key):
+            block = html[start:end]
+            if "tile hero" not in block[:80] and "hero" not in block[:120]:
+                continue
+            new = re.sub(
+                r'(<div class="s">)(.*?)(</div>)',
+                lambda m, caption=caption: m.group(1) + caption + m.group(3),
+                block,
+                count=1,
+                flags=re.S,
+            )
+            spans.append((start, end, new))
+            break
+    return replace_spans(html, spans)
+
+
+def patch_equity_captions(html: str, lang: str, snap: dict) -> str:
+    start, end = section_bounds(html, "equities", "crossasset")
+    section = html[start:end]
+    spans = []
+    cursor = 0
+    while True:
+        found = section.find('<div class="tile"', cursor)
+        if found < 0:
+            break
+        open_at, close_at = balanced_div(section, found)
+        block = section[open_at:close_at]
+        label = re.search(r'<div class="k">([^<]*)</div>', block)
+        if label:
+            for key, name in EQUITY_K[lang].items():
+                if label.group(1) != name:
+                    continue
+                caption = status.equity_vix_caption(snap, lang) if key == "vix" else status.equity_caption(key, snap, lang)
+                new = re.sub(
+                    r'(<div class="s">)(.*?)(</div>)',
+                    lambda m, caption=caption: m.group(1) + caption + m.group(3),
+                    block,
+                    count=1,
+                    flags=re.S,
+                )
+                spans.append((open_at, close_at, new))
+        cursor = close_at
+    return html[:start] + replace_spans(section, spans) + html[end:]
+
+
+def patch_rank_and_dates(html: str, lang: str, snap: dict) -> str:
+    window = status.period_chip(snap, lang)
+    dated = status.last_date_chip(snap, lang)
+    for chip_id in ("idx-asof", "sec-asof"):
+        html = re.sub(
+            rf'(<span class="asof-chip" id="{chip_id}">)(.*?)(</span>)',
+            lambda m, window=window: m.group(1) + window + m.group(3),
+            html,
+            count=1,
+            flags=re.S,
+        )
+        date_id = "idx-date" if chip_id == "idx-asof" else "sec-date"
+        pattern = rf'(<span class="asof-chip" id="{chip_id}">.*?</span>)<span class="asof-chip"[^>]*>(.*?)</span>'
+        html = re.sub(
+            pattern,
+            lambda m, dated=dated, date_id=date_id: m.group(1) + f'<span class="asof-chip" id="{date_id}" data-status="{date_id}">{dated}</span>',
+            html,
+            count=1,
+            flags=re.S,
+        )
+    rank = status.sector_rank_text(snap, lang)
+    if 'id="sec-rank"' in html:
+        html = re.sub(
+            r'(<span class="asof-chip" id="sec-rank"[^>]*>)(.*?)(</span>)',
+            lambda m, rank=rank: m.group(1) + rank + m.group(3),
+            html,
+            count=1,
+            flags=re.S,
+        )
+    else:
+        html = re.sub(
+            r'(<span class="asof-chip" id="sec-date"[^>]*>.*?</span>)',
+            lambda m, rank=rank: m.group(1) + f'<span class="asof-chip" id="sec-rank" data-status="sec-rank">{rank}</span>',
+            html,
+            count=1,
+            flags=re.S,
+        )
+    start, end = section_bounds(html, "indexes", "sectors")
+    section = html[start:end]
+    title = status.ath_chart_title(snap, lang)
+    updated, count = re.subn(
+        r'<p class="pc-title"(?: id="ath-chart-title")?>([^<]*ATH[^<]*)</p>',
+        f'<p class="pc-title" id="ath-chart-title">{title}</p>',
+        section,
+        count=1,
+    )
+    if count != 1:
+        raise UpdateError("ATH chart caption missing")
+    return html[:start] + updated + html[end:]
+
+
 def patch_labels(html: str, lang: str, snap: dict, job: str) -> str:
     status = re.search(r'<span id="quote-status"[^>]*>([^<]*)</span>', html)
     day = session_date(snap["equitySession"])
@@ -1650,11 +1839,16 @@ def note_text(lang: str, snap: dict, job: str) -> str:
     session = phrase(snap["equitySession"], lang)
     morning = any(snap["crossAsset"][key].get("displayKind") == "intraday" for key in CROSS_IDS)
     if lang == "zh":
-        text = f"自動更新快照：股指、VIX、11 隻產業 SPDR 與 SPY／QQQ／RSP／QQEW／SPYM 的官方收市為{session}。早晨 08:00 ET 只更新跨資產，不覆蓋這些官方收市。GDP、PCE、CPI、PPI、NFP、官方 HY OAS、ChartRow 廣度、SSGA 持股權重、財政部現金收益率與文字評論維持上次人工版本。"
+        text = f"自動更新快照：股指、VIX、11 隻產業 SPDR 與 SPY／QQQ／RSP／QQEW／SPYM 的官方收市為{session}。狀態短句（調整區間、VIX 區間、已儲存的 11 月 5 日收市對照、已儲存連升連跌、產業領漲／落後）依同一收市規則更新。早晨 08:00 ET 只更新跨資產，不覆蓋股指收市與那些狀態短句。見底判斷、概率、評論、GDP、PCE、CPI、PPI、NFP、官方 HY OAS、ChartRow 廣度、SSGA 持股權重與財政部現金收益率維持人工版本。"
         if morning:
             text += "跨資產磚上若標明盤中，該數字不是官方結算。"
         return text
-    text = f"Auto-updated snapshot: official closes for equities, VIX, the 11 sector SPDRs, and SPY / QQQ / RSP / QQEW / SPYM are the {session}. The 08:00 ET run refreshes cross-assets only and does not overwrite those official closes. GDP, PCE, CPI, PPI, NFP, official HY OAS, ChartRow breadth, SSGA holding weights, official Treasury cash yields, and the written commentary stay on the last human edition."
+    text = (
+        f"Auto-updated snapshot: official closes for equities, VIX, the 11 sector SPDRs, and SPY / QQQ / RSP / QQEW / SPYM are the {session}. "
+        "Factual status lines (correction zone, VIX band, stored 5 Nov 2026 anchors, stored streaks, and the sector leader/laggard) follow those closes. "
+        "The 08:00 ET run refreshes cross-assets only and does not rewrite equity or VIX status from overnight prints. "
+        "The bottom call, probabilities, commentary, GDP, PCE, CPI, PPI, NFP, official HY OAS, ChartRow breadth, SSGA holding weights, and official Treasury cash yields stay on the last human edition."
+    )
     if morning:
         text += " A cross-asset tile marked intraday is not an official settlement."
     return text
@@ -1667,12 +1861,12 @@ def patch_note(html: str, lang: str, snap: dict, job: str) -> str:
     return html.replace("<main>", "<main>\n" + paragraph + "\n", 1)
 
 
-def render_pages(snapshot: dict, job: str, root: Path = ROOT) -> dict[str, str]:
+def render_pages(snapshot: dict, job: str, root: Path = ROOT, notes: list[str] | None = None) -> dict[str, str]:
     changed = {}
     for lang, name in (("zh", "zh.html"), ("en", "en.html")):
         path = root / name
         original = path.read_text(encoding="utf-8")
-        updated = patch_html(original, lang, snapshot, job)
+        updated = patch_html(original, lang, snapshot, job, notes)
         if updated != original:
             changed[name] = updated
     return changed
@@ -1703,7 +1897,10 @@ def run(argv: list[str] | None = None) -> int:
         now = now.replace(tzinfo=NY)
     snapshot = load_snapshot(args.root / "data" / "official-snapshot.json")
     if args.render_snapshot:
-        pages = render_pages(snapshot, "post-close", args.root)
+        notes: list[str] = []
+        pages = render_pages(snapshot, "post-close", args.root, notes)
+        for line in notes:
+            print(f"note: {line}")
         print(f"render-snapshot: {len(pages)} file(s) would change" if args.dry_run else f"render-snapshot: updated {sorted(pages)}")
         if not args.dry_run:
             write_outputs(snapshot, pages, args.root, write_snapshot=False)
@@ -1722,9 +1919,9 @@ def run(argv: list[str] | None = None) -> int:
     except UpdateError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
+    pages = render_pages(updated, decision["action"], args.root, notes)
     for note in notes:
         print(f"note: {note}")
-    pages = render_pages(updated, decision["action"], args.root)
     changed_snapshot = snapshot_changed(snapshot, updated)
     if not pages and not changed_snapshot:
         print("No figure changes.")

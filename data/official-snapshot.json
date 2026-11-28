@@ -461,6 +461,16 @@
       }
     }
   ],
+  "anchors": {
+    "2026-11-05": {
+      "spx": "7353.73",
+      "ixic": "24315.00"
+    }
+  },
+  "streaks": {
+    "dji": 4,
+    "rut": 4
+  },
   "us10yMarket": {
     "value": "4.936",
     "asOf": "2026-11-27T14:30"
@@ -469,6 +479,7 @@
     "Seeded from the Friday 27 November 2026 early close already published in zh.html, en.html, and the CNBC quote script.",
     "ATH levels already printed in the pages are stored exactly. Where only a distance was printed, the ATH is the level that rounds back to that distance.",
     "XLRE ATH is the page's stated 51.81 on 31 December 2021. XLK ATH is 202.00 on 6 October 2026. XLP's 27 November close is its closing high.",
-    "VIX day-change uses the previous equity session (25 November, 28.29), not the Thanksgiving print."
+    "VIX day-change uses the previous equity session (25 November, 28.29), not the Thanksgiving print.",
+    "5 November 2026 anchors are the official closes already printed on the page: S&P 7,353.73 and Nasdaq Composite 24,315.00. Dow and Russell streaks are the four-day advances already stated for that Friday close."
   ]
 }
